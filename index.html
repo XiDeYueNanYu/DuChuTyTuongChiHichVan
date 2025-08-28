@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Tiếng Trung Với Hán Việt</title>
+    <style>
+        @font-face {
+            font-family: 'FontA';
+            src: url('XiaoZhuanTi.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'FontB';
+            src: url('FZFS.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'FontC';
+            src: url('NotoSans-Regular.ttf') format('truetype');
+        }
+
+        :root {
+            --color1: #49332a;
+            --color2: #ffffff;
+            --color3: #31381d;
+            --color4: #f9f9f9;
+            --color5: #ffbe30;
+            --color6: #cab6a6;
+            --color7: #31381d;
+            --color8: #82cbf4;
+            --color9: #000000;
+            --color10: #698296;
+            --color11: #cab6a6;
+            --color12: #31381d;
+        }
+
+        body {
+            background-color: #5b473f;
+            font-family: Arial, 'Noto Sans SC', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            position: relative;
+        }
+        .text-box {
+            width: 1000px;
+            max-width: 90%;
+            padding: 30px;
+            border: 8px solid var(--color1);
+            border-radius: 0px;
+            background-color: var(--color4);
+            font-size: 80px;
+            color: var(--color3);
+            line-height: 2;
+            text-align: justify;
+            overflow-wrap: break-word;
+            position: relative;
+        }
+        #textContent {
+            font-size: 150px;
+            border-radius: 0px;
+            white-space: pre-wrap;
+            line-height: 2;
+        }
+        .pinyin-word {
+            position: relative;
+            display: inline-block;
+            white-space: nowrap;
+            line-height: 1;
+            padding: 2px 5px;
+            margin: 0 1px;
+            vertical-align: top;
+        }
+        .han-viet {
+            position: absolute;
+            top: -73px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 27px;
+            background-color: var(--color11);
+            color: var(--color12);
+            padding: 5px 5px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 1;
+            line-height: 1;
+            font-family: 'FontC';
+        }
+        .han-small {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 25px;
+            background-color: var(--color11);
+            color: var(--color12);
+            padding: 5px 5px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 1;
+            line-height: 1;
+            font-family: 'FontB';
+        }
+        .original {
+            display: inline;
+            line-height: 1;
+            font-family: 'FontA';
+        }
+        .non-chinese {
+            display: inline;
+            font-family: 'FontC';
+            font-size: 80px;
+            vertical-align: top;
+        }
+        .control-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(25, 25, 25, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        .control-panel button {
+            margin: 5px;
+            padding: 8px 12px;
+            background: #ffffff; /* 3498db 191919*/
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .control-panel select {
+            margin: 5px;
+            padding: 8px 12px;
+            background: #ffffff;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .control-panel select:focus {
+            outline: none;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 3px;
+            }
+            .text-box {
+                width: 90%;
+                padding: 20px;
+                border: 6px solid var(--color1);
+                font-size: 50px;
+            }
+            #textContent {
+                font-size: 90px;
+            }
+            .han-viet {
+                top: -50px;
+                font-size: 20px;
+                padding: 3px 4px;
+            }
+            .han-small {
+                top: -25px;
+                font-size: 18px;
+                padding: 3px 4px;
+            }
+            .pinyin-word {
+                padding: 1px 3px;
+            }
+            .non-chinese {
+                font-size: 50px;
+            }
+			.control-panel button {
+            margin: 3px;
+            padding: 3px 4px;
+        }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 3px;
+            }
+            .text-box {
+                max-width: 90%;
+                padding: 5px;
+                border: 4px solid var(--color1);
+                font-size: 20px;
+            }
+            #textContent {
+                font-size: 20px;
+            }
+            .han-viet {
+                top: -40px;
+                font-size: 16px;
+                padding: 2px 3px;
+            }
+            .han-small {
+                top: -20px;
+                font-size: 14px;
+                padding: 2px 3px;
+            }
+            .pinyin-word {
+                padding: 1px 2px;
+            }
+            .non-chinese {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-box" id="textDisplay">
+            <div id="textContent"></div>
+        </div>
+    </div>
+
+    <div class="control-panel">
+        <button onclick="changeFontSize(10)">A+</button>
+        <button onclick="changeFontSize(-10)">A-</button>
+        <button onclick="togglePinyin()">Ẩn/Hiện Phiên Âm</button>
+        <select id="fontSelector" onchange="changeFont(this.value)">
+            <option value="XiaoZhuanTi">XiaoZhuanTi</option>
+            <option value="JiaGuWen">JiaGuWen</option>
+            <option value="YuYouRenCaoShu">YuYouRenCaoShu</option>
+            <option value="ZhuanShu">ZhuanShu</option>
+            <option value="DaZhuan">DaZhuan</option>
+            <option value="MiFuXingShu">MiFuXingShu</option>
+            <option value="ZhongQiCaiXingShu">ZhongQiCaiXingShu</option>
+            <option value="MaoZeDong">MaoZeDong</option>
+            <option value="CaoShuZhongQiLiuHong">CaoShuZhongQiLiuHong</option>
+            <option value="LiShuHanDai">LiShuHanDai</option>
+        </select>
+    </div>
+
+    <script>
+        const textDisplay = document.getElementById('textDisplay');
+        const textContent = document.getElementById('textContent');
+
+        // Biến để tùy chỉnh khoảng cách lề
+        const horizontalPadding = 10;
+        const verticalPadding = 100;
+
+        // Danh sách font từ bình luận trong CSS
+        const availableFonts = [
+            'XiaoZhuanTi',
+            'JiaGuWen',
+            'YuYouRenCaoShu',
+            'ZhuanShu',
+            'DaZhuan',
+            'MiFuXingShu',
+            'ZhongQiCaiXingShu',
+            'MaoZeDong',
+            'CaoShuZhongQiLiuHong',
+            'LiShuHanDai'
+        ];
+
+        // Tạo @font-face động cho tất cả các font
+        function createFontFaces() {
+            const styleSheet = document.createElement('style');
+            availableFonts.forEach(font => {
+                const fontFace = `
+                    @font-face {
+                        font-family: '${font}';
+                        src: url('${font}.ttf') format('truetype');
+                    }
+                `;
+                styleSheet.textContent += fontFace;
+            });
+            document.head.appendChild(styleSheet);
+        }
+
+        // Hàm thay đổi font cho chữ Hán
+        function changeFont(fontName) {
+            document.querySelectorAll('.original').forEach(el => {
+                el.style.fontFamily = `'${fontName}'`;
+            });
+        }
+
+        // Mảng chứa các đoạn văn bản (chỉ giữ phần tử đầu tiên)
+        const textContentData = [
+            `谕诸裨将檄文
+余常闻之：纪信以身代死而脱高帝，由于以背受戈而蔽招王。蓣让吞炭而复主雠，申蒯断臂而赴国难。敬德一小生也身翼太宗而得免世充之围，杲卿一远臣也口骂禄山而不从逆贼之计。自古忠臣义士以身死国何代无之？设使数子区区为儿女子之态，徒死牖下，乌能名垂竹白，与天地相为不朽哉！
+汝等世为将种不晓文义，其闻其说疑信相半。古先之事姑置勿论。今余以宋鞑之事言之：王公坚何人也？其裨将阮文立又何人也？以钓鱼锁锁斗大之城，当蒙哥堂堂百万之锋，使宋之生灵至今受赐！骨待兀郎何人也？其裨将赤修思又何人也？冒瘴厉於万里之途，獗南诏於数旬之顷，使鞑之君长至今留名！
+况余与汝等生於扰攘之秋，长於艰难之势。窃见伪使往来道途旁午。掉鸮乌之寸舌而陵辱朝廷，委犬羊之尺躯而倨傲宰祔。托忽必列之令而索玉帛以事无已之诛求，假云南王之号而揪金银以竭有限之傥库。譬犹以肉投馁虎宁能免遗后患也哉？
+余常临餐忘食，中夜抚枕，涕泗交痍，心腹如捣。常以未能食肉寝皮，絮肝饮血为恨也。虽余之百身，高於草野，余之千尸，裹於马革，亦愿为之！
+汝等久居门下，掌握兵权。无衣者则衣之以衣，无食者则食之以食。官卑者则迁其爵，禄薄者则给其俸。水行给舟，陆行给马。委之以兵，则生死同其所为，进之在寝，则笑语同其所乐。其是公坚之为偏裨，兀郎之为副贰，亦未下尔。
+汝等坐视主辱曾不为忧，身当国耻曾不为愧。为邦国之将侍立夷宿而无忿心，听太常之乐宴飨伪使而无怒色。或斗鸡以为乐，或赌博以为娱。或事田园以养其家，或恋妻子以私於己。修生产之业而忘军国之务，恣田猎之游而怠攻守之习。或甘美酒，或嗜淫声。脱有蒙鞑之寇来，雄鸡之距不足以穿虏甲，赌博之术不足以施军谋。田园之富不足以赎千金之躯，妻拿之累不足以充军国之用。生产之多不足以购虏首，猎犬之力不足以驱贼众。美酒不足以沈虏军，淫声不足以聋虏耳。当此之时我家臣主就缚，甚可痛哉！不唯余之采邑被削，而汝等之俸禄亦为他人之所有；不唯余之家小被驱，而汝等之妻拿亦为他人之所虏；不唯余之祖宗社稷为他人之所践侵，而汝等之父母坟墓亦为他人之所发掘；不唯余之今生受辱虽百世之下臭名难洗恶谥长存，而汝等之家清亦不免名为败将矣！当此之时汝等虽欲肆其娱乐，得乎？
+今余明告汝等，当以措火积薪为危，当以惩羹吹虀为戒。训练士卒习尔弓矢。使人人逄蒙，家家后羿。购必烈之头於阙下，朽云南之肉於杲街。不唯余之采邑永为青毡，而汝等之俸禄亦终身之受赐；不唯余之家小得安床褥，而汝等之妻拿亦百年之佳老；不唯余之宗庙万世享祀，而汝等之祖父亦春秋之血食；不唯余之今生得志，而汝等百世之下芳名不朽；不唯余之美谥永垂，而汝等之姓名亦遗芳於青史矣。当此之时汝等虽欲不为娱乐，得乎？
+今余历选诸家兵法为一书名曰兵书要略。汝等或能专习是书受余教诲是夙世之臣主也，或暴弃是书违余教诲是夙世之仇雠也。
+何则？蒙鞑乃不共戴天之雠，汝等记恬然不以雪耻为念不以除凶为心，而又不教士卒是倒戈迎降空拳受敌，使平虏之后万世遗羞，上有何面目立於天地覆载之间耶？故欲汝等明知余心，因笔以檄云。
+`
+        ];
+
+        // Mảng chữ Hán đã lọc sạch dấu câu
+        const hanziArray = [
+    "谕", "诸", "裨", "将", "檄", "文", "余", "常", "闻", "之", "纪", "信", "以", "身", "代", "死", "而", "脱", "高", "帝", "由", "于", "以", "背", "受", "戈", "而", "蔽", "招", "王", "蓣", "让", "吞", "炭", "而", "复", "主", "雠", "申", "蒯", "断", "臂", "而", "赴", "国", "难", "敬", "德", "一", "小", "生", "也", "身", "翼", "太", "宗", "而", "得", "免", "世", "充", "之", "围", "杲", "卿", "一", "远", "臣", "也", "口", "骂", "禄", "山", "而", "不", "从", "逆", "贼", "之", "计", "自", "古", "忠", "臣", "义", "士", "以", "身", "死", "国", "何", "代", "无", "之", "设", "使", "数", "子", "区", "区", "为", "儿", "女", "子", "之", "态", "徒", "死", "牖", "下", "乌", "能", "名", "垂", "竹", "白", "与", "天", "地", "相", "为", "不", "朽", "哉", "汝", "等", "世", "为", "将", "种", "不", "晓", "文", "义", "其", "闻", "其", "说", "疑", "信", "相", "半", "古", "先", "之", "事", "姑", "置", "勿", "论", "今", "余", "以", "宋", "鞑", "之", "事", "言", "之", "王", "公", "坚", "何", "人", "也", "其", "裨", "将", "阮", "文", "立", "又", "何", "人", "也", "以", "钓", "鱼", "锁", "锁", "斗", "大", "之", "城", "当", "蒙", "哥", "堂", "堂", "百", "万", "之", "锋", "使", "宋", "之", "生", "灵", "至", "今", "受", "赐", "骨", "待", "兀", "郎", "何", "人", "也", "其", "裨", "将", "赤", "修", "思", "又", "何", "人", "也", "冒", "瘴", "厉", "於", "万", "里", "之", "途", "獗", "南", "诏", "於", "数", "旬", "之", "顷", "使", "鞑", "之", "君", "长", "至", "今", "留", "名", "况", "余", "与", "汝", "等", "生", "於", "扰", "攘", "之", "秋", "长", "於", "艰", "难", "之", "势", "窃", "见", "伪", "使", "往", "来", "道", "途", "旁", "午", "掉", "鸮", "乌", "之", "寸", "舌", "而", "陵", "辱", "朝", "廷", "委", "犬", "羊", "之", "尺", "躯", "而", "倨", "傲", "宰", "祔", "托", "忽", "必", "列", "之", "令", "而", "索", "玉", "帛", "以", "事", "无", "已", "之", "诛", "求", "假", "云", "南", "王", "之", "号", "而", "揪", "金", "银", "以", "竭", "有", "限", "之", "傥", "库", "譬", "犹", "以", "肉", "投", "馁", "虎", "宁", "能", "免", "遗", "后", "患", "也", "哉", "余", "常", "临", "餐", "忘", "食", "中", "夜", "抚", "枕", "涕", "泗", "交", "痍", "心", "腹", "如", "捣", "常", "以", "未", "能", "食", "肉", "寝", "皮", "絮", "肝", "饮", "血", "为", "恨", "也", "虽", "余", "之", "百", "身", "高", "於", "草", "野", "余", "之", "千", "尸", "裹", "於", "马", "革", "亦", "愿", "为", "之", "汝", "等", "久", "居", "门", "下", "掌", "握", "兵", "权", "无", "衣", "者", "则", "衣", "之", "以", "衣", "无", "食", "者", "则", "食", "之", "以", "食", "官", "卑", "者", "则", "迁", "其", "爵", "禄", "薄", "者", "则", "给", "其", "俸", "水", "行", "给", "舟", "陆", "行", "给", "马", "委", "之", "以", "兵", "则", "生", "死", "同", "其", "所", "为", "进", "之", "在", "寝", "则", "笑", "语", "同", "其", "所", "乐", "其", "是", "公", "坚", "之", "为", "偏", "裨", "兀", "郎", "之", "为", "副", "贰", "亦", "未", "下", "尔", "汝", "等", "坐", "视", "主", "辱", "曾", "不", "为", "忧", "身", "当", "国", "耻", "曾", "不", "为", "愧", "为", "邦", "国", "之", "将", "侍", "立", "夷", "宿", "而", "无", "忿", "心", "听", "太", "常", "之", "乐", "宴", "飨", "伪", "使", "而", "无", "怒", "色", "或", "斗", "鸡", "以", "为", "乐", "或", "赌", "博", "以", "为", "娱", "或", "事", "田", "园", "以", "养", "其", "家", "或", "恋", "妻", "子", "以", "私", "於", "己", "修", "生", "产", "之", "业", "而", "忘", "军", "国", "之", "务", "恣", "田", "猎", "之", "游", "而", "怠", "攻", "守", "之", "习", "或", "甘", "美", "酒", "或", "嗜", "淫", "声", "脱", "有", "蒙", "鞑", "之", "寇", "来", "雄", "鸡", "之", "距", "不", "足", "以", "穿", "虏", "甲", "赌", "博", "之", "术", "不", "足", "以", "施", "军", "谋", "田", "园", "之", "富", "不", "足", "以", "赎", "千", "金", "之", "躯", "妻", "拿", "之", "累", "不", "足", "以", "充", "军", "国", "之", "用", "生", "产", "之", "多", "不", "足", "以", "购", "虏", "首", "猎", "犬", "之", "力", "不", "足", "以", "驱", "贼", "众", "美", "酒", "不", "足", "以", "沈", "虏", "军", "淫", "声", "不", "足", "以", "聋", "虏", "耳", "当", "此", "之", "时", "我", "家", "臣", "主", "就", "缚", "甚", "可", "痛", "哉", "不", "唯", "余", "之", "采", "邑", "被", "削", "而", "汝", "等", "之", "俸", "禄", "亦", "为", "他", "人", "之", "所", "有", "不", "唯", "余", "之", "家", "小", "被", "驱", "而", "汝", "等", "之", "妻", "拿", "亦", "为", "他", "人", "之", "所", "虏", "不", "唯", "余", "之", "祖", "宗", "社", "稷", "为", "他", "人", "之", "所", "践", "侵", "而", "汝", "等", "之", "父", "母", "坟", "墓", "亦", "为", "他", "人", "之", "所", "发", "掘", "不", "唯", "余", "之", "今", "生", "受", "辱", "虽", "百", "世", "之", "下", "臭", "名", "难", "洗", "恶", "谥", "长", "存", "而", "汝", "等", "之", "家", "清", "亦", "不", "免", "名", "为", "败", "将", "矣", "当", "此", "之", "时", "汝", "等", "虽", "欲", "肆", "其", "娱", "乐", "得", "乎", "今", "余", "明", "告", "汝", "等", "当", "以", "措", "火", "积", "薪", "为", "危", "当", "以", "惩", "羹", "吹", "虀", "为", "戒", "训", "练", "士", "卒", "习", "尔", "弓", "矢", "使", "人", "人", "逄", "蒙", "家", "家", "后", "羿", "购", "必", "烈", "之", "头", "於", "阙", "下", "朽", "云", "南", "之", "肉", "於", "杲", "街", "不", "唯", "余", "之", "采", "邑", "永", "为", "青", "毡", "而", "汝", "等", "之", "俸", "禄", "亦", "终", "身", "之", "受", "赐", "不", "唯", "余", "之", "家", "小", "得", "安", "床", "褥", "而", "汝", "等", "之", "妻", "拿", "亦", "百", "年", "之", "佳", "老", "不", "唯", "余", "之", "宗", "庙", "万", "世", "享", "祀", "而", "汝", "等", "之", "祖", "父", "亦", "春", "秋", "之", "血", "食", "不", "唯", "余", "之", "今", "生", "得", "志", "而", "汝", "等", "百", "世", "之", "下", "芳", "名", "不", "朽", "不", "唯", "余", "之", "美", "谥", "永", "垂", "而", "汝", "等", "之", "姓", "名", "亦", "遗", "芳", "於", "青", "史", "矣", "当", "此", "之", "时", "汝", "等", "虽", "欲", "不", "为", "娱", "乐", "得", "乎", "今", "余", "历", "选", "诸", "家", "兵", "法", "为", "一", "书", "名", "曰", "兵", "书", "要", "略", "汝", "等", "或", "能", "专", "习", "是", "书", "受", "余", "教", "诲", "是", "夙", "世", "之", "臣", "主", "也", "或", "暴", "弃", "是", "书", "违", "余", "教", "诲", "是", "夙", "世", "之", "仇", "雠", "也", "何", "则", "蒙", "鞑", "乃", "不", "共", "戴", "天", "之", "雠", "汝", "等", "记", "恬", "然", "不", "以", "雪", "耻", "为", "念", "不", "以", "除", "凶", "为", "心", "而", "又", "不", "教", "士", "卒", "是", "倒", "戈", "迎", "降", "空", "拳", "受", "敌", "使", "平", "虏", "之", "后", "万", "世", "遗", "羞", "上", "有", "何", "面", "目", "立", "於", "天", "地", "覆", "载", "之", "间", "耶", "故", "欲", "汝", "等", "明", "知", "余", "心", "因", "笔", "以", "檄", "云"
+];
+
+        // Mảng từ Hán Việt tương ứng
+        const hanVietArray = [
+    "Dụ", "chư", "tì", "tướng", "hịch", "văn", "Dư", "thường", "văn", "chi", "Kỷ", "Tín", "dĩ", "thân", "đại", "tử", "nhi", "thoát", "Cao", "Đế", "Do", "Dư", "dĩ", "bối", "thụ", "qua", "nhi", "tế", "Chiêu", "Vương", "Dự", "Nhượng", "thốn", "thán", "nhi", "phục", "chủ", "thù", "Thân", "Khoái", "đoạn", "tí", "nhi", "phó", "quốc", "nạn", "Kính", "Đức", "nhất", "tiểu", "sinh", "dã", "thân", "dực", "Thái", "Tông", "nhi", "đắc", "miễn", "Thế", "Sung", "chi", "vi", "Cảnh", "Khanh", "nhất", "viễn", "thần", "dã", "khẩu", "mạ", "Lộc", "Sơn", "nhi", "bất", "tòng", "nghịch", "tặc", "chi", "kế", "Tự", "cổ", "trung", "thần", "nghĩa", "sĩ", "dĩ", "thân", "tử", "quốc", "hà", "đại", "vô", "chi", "Thiết", "sử", "sổ", "tử", "khu", "khu", "vi", "nhi", "nữ", "tử", "chi", "thái", "đồ", "tử", "dũ", "hạ", "ô", "năng", "danh", "thùy", "trúc", "bạch", "dữ", "thiên", "địa", "tương", "vi", "bất", "hủ", "tai", "nhữ", "đẳng", "thế", "vi", "tương", "chủng", "bất", "hiểu", "văn", "nghĩa", "kì", "văn", "kì", "thuyết", "nghi", "tín", "tương", "bán", "cổ", "tiên", "chi", "sự", "cô", "trí", "vật", "luận", "kim", "dư", "dĩ", "tống", "thát", "chi", "sự", "ngôn", "chi", "vương", "công", "kiên", "hà", "nhân", "dã", "kì", "bì", "tương", "nguyễn", "văn", "lập", "hựu", "hà", "nhân", "dã", "dĩ", "điếu", "ngư", "tỏa", "tỏa", "đẩu", "đại", "chi", "thành", "đương", "mông", "ca", "đường", "đường", "bách", "vạn", "chi", "phong", "sử", "tống", "chi", "sanh", "linh", "chí", "kim", "thụ", "tứ", "cốt", "đãi", "ngột", "lang", "hà", "nhân", "dã", "kì", "bì", "tương", "xích", "tu", "tư", "hựu", "hà", "nhân", "dã", "mạo", "chướng", "lệ", "ư", "vạn", "lí", "chi", "đồ", "quyết", "nam", "chiếu", "ư", "sổ", "tuần", "chi", "khoảnh", "sử", "thát", "chi", "quân", "trường", "chí", "kim", "lưu", "danh", "Huống", "dư", "dữ", "nhữ", "đẳng", "sinh", "ư", "nhiễu", "nhương", "chi", "thu", "trưởng", "ư", "gian", "nan", "chi", "thế", "Thiết", "kiến", "ngụy", "sử", "vãng", "lai", "đạo", "đồ", "bàng", "ngọ", "Trạo", "hiêu", "ô", "chi", "thốn", "thiệt", "nhi", "lăng", "nhục", "triều", "đình", "ủy", "khuyển", "dương", "chi", "xích", "khu", "nhi", "cứ", "ngạo", "tể", "phó", "Thác", "Hốt", "Tất", "Liệt", "chi", "lệnh", "nhi", "sách", "ngọc", "bạch", "dĩ", "sự", "vô", "dĩ", "chi", "tru", "cầu", "giả", "Vân", "Nam", "Vương", "chi", "hiệu", "nhi", "kiểu", "kim", "ngân", "dĩ", "kiệt", "hữu", "hạn", "chi", "thảng", "khố", "Thí", "do", "dĩ", "nhục", "đầu", "nỗi", "hổ", "ninh", "năng", "miễn", "di", "hậu", "hoạn", "dã", "tai", "Dư", "thường", "lâm", "xan", "vong", "thực", "trung", "dạ", "phủ", "chẩm", "thế", "tứ", "giao", "di", "tâm", "phúc", "như", "đảo", "Thường", "dĩ", "vị", "năng", "thực", "nhục", "tẩm", "bì", "nhứ", "can", "ẩm", "huyết", "vi", "hận", "dã", "Tuy", "dư", "chi", "bách", "thân", "cao", "ư", "thảo", "dã", "dư", "chi", "thiên", "thi", "khỏa", "ư", "mã", "cách", "diệc", "nguyện", "vi", "chi", "Nhữ", "đẳng", "cửu", "cư", "môn", "hạ", "chưởng", "ác", "binh", "quyền", "Vô", "y", "giả", "tắc", "y", "chi", "dĩ", "y", "vô", "thực", "giả", "tắc", "thực", "chi", "dĩ", "thực", "Quan", "ti", "giả", "tắc", "thiên", "kỳ", "tước", "lộc", "bạc", "giả", "tắc", "cấp", "kỳ", "bổng", "Thủy", "hành", "cấp", "chu", "lục", "hành", "cấp", "mã", "Ủy", "chi", "dĩ", "binh", "tắc", "sinh", "tử", "đồng", "kỳ", "sở", "vi", "tiến", "chi", "tại", "tẩm", "tắc", "tiếu", "ngữ", "đồng", "kỳ", "sở", "lạc", "Kỳ", "thị", "Công", "Kiên", "chi", "vi", "thiên", "tì", "Ngột", "Lang", "chi", "vi", "phó", "nhị", "diệc", "vị", "hạ", "nhĩ", "Nhữ", "đẳng", "tọa", "thị", "chủ", "nhục", "tằng", "bất", "vi", "ưu", "thân", "đương", "quốc", "sỉ", "tằng", "bất", "vi", "quý", "Vi", "bang", "quốc", "chi", "tướng", "thị", "lập", "di", "tú", "nhi", "vô", "phẫn", "tâm", "thính", "Thái", "Thường", "chi", "nhạc", "yến", "hưởng", "ngụy", "sử", "nhi", "vô", "nộ", "sắc", "Hoặc", "đấu", "kê", "dĩ", "vi", "lạc", "hoặc", "đổ", "bác", "dĩ", "vi", "ngu", "Hoặc", "sự", "điền", "viên", "dĩ", "dưỡng", "kỳ", "gia", "hoặc", "luyến", "thê", "tử", "dĩ", "tư", "ư", "kỷ", "Tu", "sinh", "sản", "chi", "nghiệp", "nhi", "vong", "quân", "quốc", "chi", "vụ", "tứ", "điền", "liệp", "chi", "du", "nhi", "đãi", "công", "thủ", "chi", "tập", "Hoặc", "cam", "mỹ", "tửu", "hoặc", "thị", "dâm", "thanh", "Thoát", "hữu", "Mông", "Thát", "chi", "khấu", "lai", "hùng", "kê", "chi", "cự", "bất", "túc", "dĩ", "xuyên", "lỗ", "giáp", "đổ", "bác", "chi", "thuật", "bất", "túc", "dĩ", "thi", "quân", "mưu", "Điền", "viên", "chi", "phú", "bất", "túc", "dĩ", "thục", "thiên", "kim", "chi", "khu", "thê", "noa", "chi", "lụy", "bất", "túc", "dĩ", "sung", "quân", "quốc", "chi", "dụng", "Sinh", "sản", "chi", "đa", "bất", "túc", "dĩ", "cấu", "lỗ", "thủ", "liệp", "khuyển", "chi", "lực", "bất", "túc", "dĩ", "khu", "tặc", "chúng", "Mỹ", "tửu", "bất", "túc", "dĩ", "trầm", "lỗ", "quân", "dâm", "thanh", "bất", "túc", "dĩ", "lung", "lỗ", "nhĩ", "Đương", "thử", "chi", "thời", "ngã", "gia", "thần", "chủ", "tựu", "phọc", "thậm", "khả", "thống", "tai", "Bất", "duy", "dư", "chi", "thái", "ấp", "bị", "tước", "nhi", "nhữ", "đẳng", "chi", "bổng", "lộc", "diệc", "vi", "tha", "nhân", "chi", "sở", "hữu", "bất", "duy", "dư", "chi", "gia", "tiểu", "bị", "khu", "nhi", "nhữ", "đẳng", "chi", "thê", "noa", "diệc", "vi", "tha", "nhân", "chi", "sở", "lỗ", "bất", "duy", "dư", "chi", "tổ", "tông", "xã", "tắc", "vi", "tha", "nhân", "chi", "sở", "tiễn", "xâm", "nhi", "nhữ", "đẳng", "chi", "phụ", "mộ", "phần", "mộ", "diệc", "vi", "tha", "nhân", "chi", "sở", "phát", "quật", "bất", "duy", "dư", "chi", "kim", "sinh", "thụ", "nhục", "tuy", "bách", "thế", "chi", "hạ", "xú", "danh", "nan", "tẩy", "ác", "thụy", "trường", "tồn", "nhi", "nhữ", "đẳng", "chi", "gia", "thanh", "diệc", "bất", "miễn", "danh", "vi", "bại", "tướng", "hĩ", "Đương", "thử", "chi", "thời", "nhữ", "đẳng", "tuy", "dục", "tứ", "kỳ", "ngu", "lạc", "đắc", "hồ", "Kim", "dư", "minh", "cáo", "nhữ", "đẳng", "đương", "dĩ", "thố", "hỏa", "tích", "tân", "vi", "nguy", "đương", "dĩ", "trừng", "canh", "xuy", "tê", "vi", "giới", "Huấn", "luyện", "sĩ", "tốt", "tập", "nhĩ", "cung", "thỉ", "Sử", "nhân", "nhân", "Bồng", "Mông", "gia", "gia", "Hậu", "Nghệ", "Cấu", "Tất", "Liệt", "chi", "đầu", "ư", "khuyết", "hạ", "hủ", "Vân", "Nam", "chi", "nhục", "ư", "Cảo", "nhai", "Bất", "duy", "dư", "chi", "thái", "ấp", "vĩnh", "vi", "thanh", "chiên", "nhi", "nhữ", "đẳng", "chi", "bổng", "lộc", "diệc", "chung", "thân", "chi", "thụ", "tứ", "bất", "duy", "dư", "chi", "gia", "tiểu", "đắc", "an", "sàng", "nhục", "nhi", "nhữ", "đẳng", "chi", "thê", "noa", "diệc", "bách", "niên", "chi", "giai", "lão", "bất", "duy", "dư", "chi", "tông", "miếu", "vạn", "thế", "hưởng", "tự", "nhi", "nhữ", "đẳng", "chi", "tổ", "phụ", "diệc", "xuân", "thu", "chi", "huyết", "thực", "bất", "duy", "dư", "chi", "kim", "sinh", "đắc", "chí", "nhi", "nhữ", "đẳng", "bách", "thế", "chi", "hạ", "phương", "danh", "bất", "hủ", "bất", "duy", "dư", "chi", "mỹ", "thụy", "vĩnh", "thùy", "nhi", "nhữ", "đẳng", "chi", "tính", "danh", "diệc", "di", "phương", "ư", "thanh", "sử", "hĩ", "Đương", "thử", "chi", "thời", "nhữ", "đẳng", "tuy", "dục", "bất", "vi", "ngu", "lạc", "đắc", "hồ", "Kim", "dư", "lịch", "tuyển", "chư", "gia", "binh", "pháp", "vi", "nhất", "thư", "danh", "viết", "Binh", "thư", "yếu", "lược", "Nhữ", "đẳng", "hoặc", "năng", "chuyên", "tập", "thị", "thư", "thụ", "dư", "giáo", "hối", "thị", "túc", "thế", "chi", "thần", "chủ", "dã", "hoặc", "bạo", "khí", "thị", "thư", "vi", "dư", "giáo", "hối", "thị", "túc", "thế", "chi", "cừu", "thù", "dã", "Hà", "tắc", "Mông", "Thát", "nãi", "bất", "cộng", "đái", "thiên", "chi", "thù", "nhữ", "đẳng", "ký", "điềm", "nhiên", "bất", "dĩ", "tuyết", "sỉ", "vi", "niệm", "bất", "dĩ", "trừ", "hung", "vi", "tâm", "nhi", "hựu", "bất", "giáo", "sĩ", "tốt", "thị", "đảo", "kha", "nghênh", "hàng", "không", "quyền", "thụ", "địch", "sử", "bình", "lỗ", "chi", "hậu", "vạn", "thế", "di", "tu", "thượng", "hữu", "hà", "diện", "mục", "lập", "ư", "thiên", "địa", "phú", "tái", "chi", "gian", "da", "Cố", "dục", "nhữ", "đẳng", "minh", "tri", "dư", "tâm", "nhân", "bút", "dĩ", "hịch", "vân"
+];
+
+        // Hàm xác định ký tự có phải là chữ Hán hay không (bao gồm Unicode mở rộng)
+        function isHanzi(char) {
+            return /[\u4E00-\u9FFF\u3400-\u4DBF\u31C0-\u31EF\u{20000}-\u{2A6DF}\u{2A700}-\u{2B73F}\u{2B740}-\u{2B81F}\u{2B820}-\u{2CEAF}\u{2CEB0}-\u{2EBEF}\u{30000}-\u{3134F}]/u.test(char);
+        }
+
+        // Hàm lấy code point của ký tự (hỗ trợ Unicode mở rộng)
+        function getCodePoint(char) {
+            if (char.length === 1) {
+                return char.charCodeAt(0);
+            } else {
+                const high = char.charCodeAt(0);
+                const low = char.charCodeAt(1);
+                return ((high - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+            }
+        }
+
+        // Hàm lặp qua các ký tự trong chuỗi (hỗ trợ Unicode mở rộng)
+        function stringIterator(string) {
+            let index = 0;
+            const length = string.length;
+            const chars = [];
+            
+            while (index < length) {
+                const first = string.charCodeAt(index);
+                
+                if (first >= 0xD800 && first <= 0xDBFF && index + 1 < length) {
+                    const second = string.charCodeAt(index + 1);
+                    if (second >= 0xDC00 && second <= 0xDFFF) {
+                        chars.push(string.substring(index, index + 2));
+                        index += 2;
+                        continue;
+                    }
+                }
+                
+                chars.push(string[index]);
+                index += 1;
+            }
+            
+            return chars;
+        }
+
+        // Hàm render văn bản với xử lý ký tự đặc biệt
+        function renderText(text) {
+            let finalHtml = '';
+            let hanziIndex = 0;
+            
+            const chars = stringIterator(text);
+            
+            for (let i = 0; i < chars.length; i++) {
+                const char = chars[i];
+                
+                if (!isHanzi(char)) {
+                    finalHtml += `<span class="non-chinese">${char}</span>`;
+                    continue;
+                }
+                
+                if (hanziIndex < hanziArray.length && char === hanziArray[hanziIndex]) {
+                    finalHtml += `<span class="pinyin-word"><span class="han-viet">${hanVietArray[hanziIndex]}</span><span class="han-small">${char}</span><span class="original">${char}</span></span>`;
+                    hanziIndex++;
+                } else {
+                    const codePoint = getCodePoint(char);
+                    finalHtml += `<span class="pinyin-word"><span class="han-viet">U+${codePoint.toString(16).toUpperCase()}</span><span class="han-small">${char}</span><span class="original">${char}</span></span>`;
+                }
+            }
+            
+            return finalHtml;
+        }
+
+        // Áp dụng padding cho textContent
+        function applyPadding() {
+            textContent.style.paddingLeft = `${horizontalPadding}px`;
+            textContent.style.paddingRight = `${horizontalPadding}px`;
+            textContent.style.paddingTop = `${verticalPadding}px`;
+            textContent.style.paddingBottom = `${verticalPadding}px`;
+        }
+
+        // Thay đổi kích thước font
+        function changeFontSize(delta) {
+            const currentSize = parseInt(window.getComputedStyle(textContent).fontSize);
+            const newSize = Math.max(20, currentSize + delta);
+            textContent.style.fontSize = `${newSize}px`;
+            
+            document.querySelectorAll('.han-viet').forEach(el => {
+                el.style.fontSize = `${newSize * 0.18}px`;
+            });
+            document.querySelectorAll('.han-small').forEach(el => {
+                el.style.fontSize = `${newSize * 0.16}px`;
+            });
+            document.querySelectorAll('.non-chinese').forEach(el => {
+                el.style.fontSize = `${newSize * 0.5}px`;
+            });
+        }
+
+        // Ẩn/hiện phiên âm
+        function togglePinyin() {
+            const pinyinElements = document.querySelectorAll('.han-viet, .han-small');
+            pinyinElements.forEach(el => {
+                el.style.display = el.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+
+        // Khởi tạo
+        function initializeTextContent() {
+            createFontFaces(); // Tạo @font-face cho tất cả font
+            textContent.innerHTML = renderText(textContentData[0]);
+            applyPadding();
+        }
+
+        initializeTextContent();
+    </script>
+</body>
+</html>
